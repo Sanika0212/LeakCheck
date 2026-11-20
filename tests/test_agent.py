@@ -33,6 +33,22 @@ def test_draft_amounts_come_from_the_warehouse(world: dict[str, Any], app_db: Pa
     assert tools.notify_owner(draft["draft_id"], "Draft ready")["sent"]
 
 
+def test_creating_a_draft_notifies_the_owner(world: dict[str, Any], app_db: Path) -> None:
+    """The step must not depend on the model remembering a second tool call."""
+    tools = Tools(world["warehouse"], app_db)
+    job, ids, total = _job_with_findings(world["warehouse"])
+    draft = tools.draft_invoice(job, ids)
+    assert draft["owner_notified"] is True
+    with duckdb.connect(str(app_db)) as con:
+        rows = con.execute(
+            "select draft_id, note from notifications where draft_id = ?", [draft["draft_id"]]
+        ).fetchall()
+    assert len(rows) == 1
+    assert f"{total:,.2f}"[:4] in rows[0][1]
+    # An invented draft id still reaches nobody.
+    assert "error" in tools.notify_owner("draft_0001", "Please approve")
+
+
 def test_drafts_reject_foreign_and_repeated_findings(world: dict[str, Any], app_db: Path) -> None:
     tools = Tools(world["warehouse"], app_db)
     job, ids, _ = _job_with_findings(world["warehouse"])

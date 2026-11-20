@@ -94,7 +94,7 @@ def main() -> None:
         consumed: dict[str, int] = {}
         consumer = threading.Thread(
             target=lambda: consumed.update(
-                n=bronze.consume(root=lake, flush_seconds=1.0, idle_seconds=8)
+                n=bronze.consume(root=lake, flush_seconds=1.0, idle_seconds=20)
             ),
             daemon=True,
         )
@@ -114,8 +114,14 @@ def main() -> None:
                 if delay > 0:
                     time.sleep(delay)
         send_seconds = time.time() - started
-        consumer.join(timeout=120)
+        consumer.join(timeout=300)
         table = bronze.table(lake).scan().to_arrow()
+        if table.num_rows != len(bodies):
+            # A partial read would measure a backlog, not the pipeline's freshness.
+            raise RuntimeError(
+                f"only {table.num_rows} of {len(bodies)} events reached Iceberg; "
+                "rerun on an idle machine"
+            )
         lat = (
             np.array(table["ingested_at"].to_pylist(), dtype="datetime64[us]")
             - np.array(table["received_at"].to_pylist(), dtype="datetime64[us]")

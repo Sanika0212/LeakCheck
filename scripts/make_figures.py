@@ -40,9 +40,9 @@ TYPES = [
 ]
 TYPE_LABEL = {
     "uninvoiced_job": "never invoiced",
-    "unbilled_hours": "hours not billed",
-    "unbilled_materials": "materials not billed",
-    "unbilled_extra_work": "extra work not billed",
+    "unbilled_hours": "hours\nnot billed",
+    "unbilled_materials": "materials\nnot billed",
+    "unbilled_extra_work": "extra work\nnot billed",
     "unapproved_discount": "silent discount",
 }
 

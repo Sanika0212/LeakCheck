@@ -1,0 +1,14 @@
+{
+  "events_sent": 3000,
+  "rate_per_second": 100.0,
+  "events_in_bronze": 847,
+  "send_seconds": 30.0,
+  "webhook_to_iceberg_seconds": {
+    "p50": 8.98,
+    "p95": 18.58,
+    "p99": 19.53,
+    "max": 20.12
+  },
+  "micro_batch_seconds": 1.0,
+  "bronze_to_gold_build_seconds": 12.7
+}

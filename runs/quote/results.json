@@ -1,0 +1,33 @@
+{
+  "train_jobs": 535,
+  "test_jobs": 610,
+  "mae_hours": {
+    "model": 5.92,
+    "owner_estimate": 7.66,
+    "median_per_type": 6.49
+  },
+  "mape": {
+    "model": 0.187,
+    "owner_estimate": 0.214,
+    "median_per_type": 0.217
+  },
+  "overrun_flags": {
+    "overrun_jobs": 298,
+    "flagged": 268,
+    "precision": 0.683,
+    "recall": 0.614
+  },
+  "feature_importance": {
+    "job_type_code": 43,
+    "condition_code": 525,
+    "stories": 161,
+    "rooms": 227,
+    "doors": 246,
+    "area_sqft": 1929,
+    "month": 505,
+    "est_hours": 1964
+  },
+  "mlflow_run_id": "e79f98f9180142ab82bca8102243250b",
+  "registered_version": 1,
+  "champion": true
+}

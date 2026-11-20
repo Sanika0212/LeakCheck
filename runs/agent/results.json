@@ -1,0 +1,1542 @@
+{
+  "model": "qwen2.5:7b",
+  "cases": 100,
+  "with_findings": 80,
+  "clean_jobs": 20,
+  "summary": {
+    "evidence_first": 1.0,
+    "right_draft": 0.98,
+    "notified": 0.65,
+    "amounts_from_tools": 1.0,
+    "no_edits": 0.63
+  },
+  "no_edits_with_findings": 0.537,
+  "no_draft_on_clean_jobs": 1.0,
+  "median_seconds": 21.4,
+  "drafted_lines": 80,
+  "drafted_amounts_not_from_warehouse": 0,
+  "cases_detail": [
+    {
+      "job_id": "job_000857",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 76.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001214",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 29.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000966",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 38.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001066",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 21.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001085",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 21.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001027",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 20.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000613",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 22.9,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001205",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 22.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000800",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 28.9,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000996",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 29.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001075",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 28.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001034",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 17.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000894",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 32.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001049",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 23.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000625",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 32.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000642",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 36.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001216",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 24.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001086",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 20.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001210",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 22.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000988",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 32.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000905",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 26.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000648",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 23.6,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001108",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 19.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001038",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 35.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001190",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 21.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000969",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 29.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001145",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 21.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000903",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 27.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000945",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 28.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000629",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 23.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000675",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 34.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001187",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 26.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001182",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 34.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000933",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 378.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001171",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 715.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001061",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 1467.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000963",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 19.2,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001202",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 22.2,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001173",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 15.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001064",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 13.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001215",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 14.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000658",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 22.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000779",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 17.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000726",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 16.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000896",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 16.6,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000721",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": false,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 24.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000662",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 20.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000942",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 17.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000801",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 23.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000689",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 28.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001172",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 25.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001211",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 23.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001068",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 22.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001083",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 20.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001080",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 16.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001053",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 19.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000631",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 25.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001097",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 30.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000822",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 18.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001055",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 19.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000841",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 25.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000954",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 19.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001143",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 26.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001001",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 23.6,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001180",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 28.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000950",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": false,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 633.9,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "draft_invoice",
+        "notify_owner",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000707",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 898.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001127",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 21.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000895",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 16.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000762",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 14.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000622",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 20.2,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000955",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 18.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000958",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 20.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001112",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 16.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001113",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 18.2,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001106",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 16.4,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000968",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": false,
+      "amounts_from_tools": true,
+      "no_edits": false,
+      "seconds": 17.0,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000717",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 17.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000784",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 20.1,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001220",
+      "findings": 1,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 21.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "draft_invoice",
+        "notify_owner",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000641",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 11.5,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001120",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 7.3,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_001118",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 11.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000971",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 8.1,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000661",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 9.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001201",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 7.7,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000691",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 7.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000649",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 9.3,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000676",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 9.7,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_000818",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 6.8,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000970",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 6.9,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000872",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 5.9,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000614",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 7.0,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000725",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 6.7,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000679",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 6.5,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000736",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 24.2,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner",
+        "list_open_findings",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001105",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 7.3,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_001177",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 7.8,
+      "tool_calls": [
+        "get_job_evidence",
+        "notify_owner"
+      ]
+    },
+    {
+      "job_id": "job_001004",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 6.7,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    },
+    {
+      "job_id": "job_000832",
+      "findings": 0,
+      "evidence_first": true,
+      "right_draft": true,
+      "notified": true,
+      "amounts_from_tools": true,
+      "no_edits": true,
+      "seconds": 6.2,
+      "tool_calls": [
+        "get_job_evidence"
+      ]
+    }
+  ]
+}

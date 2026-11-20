@@ -1,0 +1,143 @@
+{
+  "extractor": "llm",
+  "as_of": "2025-10-31",
+  "test_businesses": [
+    "biz_04",
+    "biz_05",
+    "biz_06"
+  ],
+  "leakcheck": {
+    "overall": {
+      "precision": 0.978,
+      "recall": 0.978,
+      "f1": 0.978,
+      "tp": 88,
+      "fp": 2,
+      "fn": 2
+    },
+    "flagged_job_precision": 0.978,
+    "flagged_jobs": 90,
+    "dollar_recall": 0.994,
+    "leaked_dollars": 82002,
+    "found_dollars": 81523,
+    "per_type": {
+      "uninvoiced_job": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 19,
+        "fp": 0,
+        "fn": 0,
+        "dollars": 53063,
+        "dollars_found": 53063
+      },
+      "unbilled_hours": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 17,
+        "fp": 0,
+        "fn": 0,
+        "dollars": 12892,
+        "dollars_found": 12892
+      },
+      "unbilled_materials": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 17,
+        "fp": 0,
+        "fn": 0,
+        "dollars": 6033,
+        "dollars_found": 6033
+      },
+      "unbilled_extra_work": {
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.947,
+        "tp": 18,
+        "fp": 0,
+        "fn": 2,
+        "dollars": 6102,
+        "dollars_found": 5623
+      },
+      "unapproved_discount": {
+        "precision": 0.895,
+        "recall": 1.0,
+        "f1": 0.944,
+        "tp": 17,
+        "fp": 2,
+        "fn": 0,
+        "dollars": 3911,
+        "dollars_found": 3911
+      }
+    }
+  },
+  "status_only_baseline": {
+    "overall": {
+      "precision": 1.0,
+      "recall": 0.211,
+      "f1": 0.349,
+      "tp": 19,
+      "fp": 0,
+      "fn": 71
+    },
+    "flagged_job_precision": 1.0,
+    "flagged_jobs": 19,
+    "dollar_recall": 0.647,
+    "leaked_dollars": 82002,
+    "found_dollars": 53063,
+    "per_type": {
+      "uninvoiced_job": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 19,
+        "fp": 0,
+        "fn": 0,
+        "dollars": 53063,
+        "dollars_found": 53063
+      },
+      "unbilled_hours": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 17,
+        "dollars": 12892,
+        "dollars_found": 0
+      },
+      "unbilled_materials": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 17,
+        "dollars": 6033,
+        "dollars_found": 0
+      },
+      "unbilled_extra_work": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 20,
+        "dollars": 6102,
+        "dollars_found": 0
+      },
+      "unapproved_discount": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 17,
+        "dollars": 3911,
+        "dollars_found": 0
+      }
+    }
+  }
+}

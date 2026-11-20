@@ -1,0 +1,254 @@
+{
+  "rules": {
+    "dev": {
+      "messages": 1598,
+      "accuracy": 0.974,
+      "per_label": {
+        "cancel_extra": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 72,
+          "fp": 0,
+          "fn": 0
+        },
+        "extra_request": {
+          "precision": 1.0,
+          "recall": 0.611,
+          "f1": 0.759,
+          "tp": 66,
+          "fp": 0,
+          "fn": 42
+        },
+        "accept": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 83,
+          "fp": 0,
+          "fn": 0
+        },
+        "price_question": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 97,
+          "fp": 0,
+          "fn": 0
+        },
+        "decline": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 25,
+          "fp": 0,
+          "fn": 0
+        },
+        "concession": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 7,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "no_charge_notes": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 50,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "test": {
+      "messages": 1619,
+      "accuracy": 0.76,
+      "per_label": {
+        "cancel_extra": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 64
+        },
+        "extra_request": {
+          "precision": 1.0,
+          "recall": 0.112,
+          "f1": 0.202,
+          "tp": 13,
+          "fp": 0,
+          "fn": 103
+        },
+        "decline": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 8,
+          "fn": 32
+        },
+        "price_question": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 85
+        },
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 84
+        },
+        "concession": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 21
+        }
+      },
+      "no_charge_notes": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 44
+      }
+    }
+  },
+  "llm:qwen2.5:7b": {
+    "dev": {
+      "messages": 1598,
+      "accuracy": 0.823,
+      "per_label": {
+        "cancel_extra": {
+          "precision": 0.934,
+          "recall": 0.986,
+          "f1": 0.959,
+          "tp": 71,
+          "fp": 5,
+          "fn": 1
+        },
+        "extra_request": {
+          "precision": 0.635,
+          "recall": 0.935,
+          "f1": 0.757,
+          "tp": 101,
+          "fp": 58,
+          "fn": 7
+        },
+        "accept": {
+          "precision": 0.856,
+          "recall": 1.0,
+          "f1": 0.922,
+          "tp": 83,
+          "fp": 14,
+          "fn": 0
+        },
+        "price_question": {
+          "precision": 0.321,
+          "recall": 1.0,
+          "f1": 0.486,
+          "tp": 97,
+          "fp": 205,
+          "fn": 0
+        },
+        "decline": {
+          "precision": 1.0,
+          "recall": 0.2,
+          "f1": 0.333,
+          "tp": 5,
+          "fp": 0,
+          "fn": 20
+        },
+        "concession": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 7,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "no_charge_notes": {
+        "precision": 1.0,
+        "recall": 0.96,
+        "f1": 0.98,
+        "tp": 48,
+        "fp": 0,
+        "fn": 2
+      }
+    },
+    "test": {
+      "messages": 1619,
+      "accuracy": 0.824,
+      "per_label": {
+        "cancel_extra": {
+          "precision": 0.939,
+          "recall": 0.969,
+          "f1": 0.954,
+          "tp": 62,
+          "fp": 4,
+          "fn": 2
+        },
+        "price_question": {
+          "precision": 0.287,
+          "recall": 1.0,
+          "f1": 0.446,
+          "tp": 85,
+          "fp": 211,
+          "fn": 0
+        },
+        "extra_request": {
+          "precision": 0.697,
+          "recall": 0.853,
+          "f1": 0.767,
+          "tp": 99,
+          "fp": 43,
+          "fn": 17
+        },
+        "decline": {
+          "precision": 1.0,
+          "recall": 0.469,
+          "f1": 0.638,
+          "tp": 15,
+          "fp": 0,
+          "fn": 17
+        },
+        "accept": {
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.889,
+          "tp": 84,
+          "fp": 21,
+          "fn": 0
+        },
+        "concession": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "tp": 21,
+          "fp": 0,
+          "fn": 0
+        }
+      },
+      "no_charge_notes": {
+        "precision": 0.957,
+        "recall": 1.0,
+        "f1": 0.978,
+        "tp": 44,
+        "fp": 2,
+        "fn": 0
+      }
+    }
+  }
+}

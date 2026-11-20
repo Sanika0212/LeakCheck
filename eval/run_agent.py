@@ -7,8 +7,13 @@ without. For each it checks:
 
 1. evidence first: the first tool call reads this job's evidence;
 2. right draft: one draft with exactly the job's findings, or no draft on a clean job;
-3. owner notified about that draft;
+3. owner notified: a notification exists for that draft in the app database;
 4. amounts from tools: every dollar figure in the agent's answer appears in a tool result.
+
+Check 3 used to ask whether the agent called ``notify_owner`` with the draft it had just
+created. It did so correctly in 65 of 100 cases: the rest passed an invented draft id such
+as ``draft_0001``, which the tool rejected, so the owner was never told. Creating a draft
+now notifies the owner, and this check reads the notification instead of the tool call.
 
 A case "needs no edits" when all four hold. Drafts go to a scratch app database, never to
 the real approval queue.
@@ -63,7 +68,15 @@ def cases(n: int, seed: int = 0) -> list[tuple[str, list[str]]]:
     return [(j, by_job[j]) for j in chosen] + [(j, []) for j in chosen_clean]
 
 
-def score(case: tuple[str, list[str]], run: dict) -> dict[str, bool]:
+def notified(app: Path) -> set[str]:
+    """Drafts the owner has been told about, however the notification was created."""
+    if not app.exists():
+        return set()
+    with duckdb.connect(str(app), read_only=True) as con:
+        return {r[0] for r in con.execute("select distinct draft_id from notifications").fetchall()}
+
+
+def score(case: tuple[str, list[str]], run: dict, notified_drafts: set[str]) -> dict[str, bool]:
     job, finding_ids = case
     calls = run["calls"]
     drafts = [c for c in calls if c["name"] == "draft_invoice"]
@@ -83,9 +96,7 @@ def score(case: tuple[str, list[str]], run: dict) -> dict[str, bool]:
             for r in run["tool_results"]
             if r.startswith("{") and '"draft_id"' in r
         ]
-        notified = any(
-            c["name"] == "notify_owner" and c["args"].get("draft_id") in draft_ids for c in calls
-        )
+        notified = bool(draft_ids) and all(d in notified_drafts for d in draft_ids if d is not None)
     else:
         right_draft = not drafts
         notified = True
@@ -119,7 +130,7 @@ def main() -> None:
             started = time.time()
             try:
                 run = run_job(case[0], tools, model)
-                checks = score(case, run)
+                checks = score(case, run, notified(Path(tmp) / "app.duckdb"))
             except Exception as exc:  # a failed run counts against every check
                 run, checks = (
                     {"calls": [], "error": type(exc).__name__},

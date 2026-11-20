@@ -2,8 +2,11 @@
 
 1. ``list_open_findings(business_id)``: findings the warehouse has not resolved.
 2. ``get_job_evidence(job_id)``: quote, hours, materials, messages and invoices for a job.
-3. ``draft_invoice(job_id, finding_ids)``: a draft for the owner to approve.
-4. ``notify_owner(draft_id, note)``: tells the owner a draft is waiting.
+3. ``draft_invoice(job_id, finding_ids)``: a draft for the owner to approve, which also
+   notifies the owner. A step that must always happen is not left to the model: in a run of
+   100 held-out jobs the agent passed ``notify_owner`` a draft id it had made up in 35% of
+   cases, so the notification now happens where the draft is created.
+4. ``notify_owner(draft_id, note)``: an extra note about a draft that already exists.
 
 Every amount in a draft comes from the warehouse: ``draft_invoice`` takes finding ids, not
 dollars, so the model cannot write an amount even by mistake. Drafts, notifications and an
@@ -184,6 +187,8 @@ class Tools:
         kind = "change_order" if all(r[2] == "unbilled_extra_work" for r in lines) else "invoice"
         draft_id = f"draft_{uuid.uuid4().hex[:10]}"
         total = round(sum(r[3] for r in lines), 2)
+        notification_id = f"note_{uuid.uuid4().hex[:10]}"
+        note = f"{kind.replace('_', ' ')} for job {job_id}: ${total:,.2f} waiting for approval"
         with duckdb.connect(str(self.app)) as con:
             con.execute(
                 "insert into drafts values (?, ?, ?, ?, ?, 'pending_approval', ?, null, null)",
@@ -192,6 +197,11 @@ class Tools:
             con.executemany(
                 "insert into draft_lines values (?, ?, ?, ?, ?)",
                 [(draft_id, r[0], r[2], r[4], r[3]) for r in lines],
+            )
+            # The owner is told here, not by a later tool call the model has to remember.
+            con.execute(
+                "insert into notifications values (?, ?, ?, ?, ?)",
+                [notification_id, draft_id, lines[0][1], note, _now()],
             )
         self._audit(
             "draft_invoice",
@@ -205,10 +215,15 @@ class Tools:
             "total": total,
             "lines": [{"finding_type": r[2], "description": r[4], "amount": r[3]} for r in lines],
             "status": "pending_approval",
+            "owner_notified": True,
+            "notification_id": notification_id,
         }
 
     def notify_owner(self, draft_id: str, note: str) -> dict[str, Any]:
-        """Tell the owner a draft is waiting for approval (a text message in production)."""
+        """Send the owner an extra note about a draft that already exists.
+
+        Creating a draft already notifies the owner, so this is for anything beyond that.
+        """
         with duckdb.connect(str(self.app)) as con:
             row = con.execute(
                 "select business_id from drafts where draft_id = ?", [draft_id]
