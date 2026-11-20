@@ -45,8 +45,14 @@ def evaluate(findings: set[tuple[str, str]], truth: dict[tuple[str, str], float]
     all_f, all_g = findings, set(truth)
     total = sum(truth.values())
     found = sum(v for k, v in truth.items() if k in all_f)
+    flagged_jobs, leaky_jobs = {j for j, _ in all_f}, {j for j, _ in all_g}
     return {
         "overall": prf(len(all_f & all_g), len(all_f - all_g), len(all_g - all_f)),
+        # The proof of concept's bar: the share of flagged jobs that really leaked.
+        "flagged_job_precision": round(len(flagged_jobs & leaky_jobs) / len(flagged_jobs), 3)
+        if flagged_jobs
+        else 0.0,
+        "flagged_jobs": len(flagged_jobs),
         "dollar_recall": round(found / total, 3) if total else 0.0,
         "leaked_dollars": round(total),
         "found_dollars": round(found),

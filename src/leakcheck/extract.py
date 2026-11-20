@@ -19,7 +19,9 @@ import difflib
 import hashlib
 import json
 import re
+import threading
 from collections.abc import Iterable
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Protocol
 
@@ -141,6 +143,8 @@ Note: {text}"""
 
 
 class LLMExtractor:
+    parallel = 4  # concurrent requests; start Ollama with OLLAMA_NUM_PARALLEL to match
+
     def __init__(
         self,
         model: str = "qwen2.5:7b",
@@ -153,6 +157,7 @@ class LLMExtractor:
         self.model = model
         self.client = ollama.Client(host=host) if host else ollama.Client()
         self.cache_path = cache
+        self.lock = threading.Lock()
         self.cache: dict[str, dict[str, Any]] = {}
         if cache.exists():
             for line in cache.read_text().splitlines():
@@ -173,10 +178,11 @@ class LLMExtractor:
             value: dict[str, Any] = json.loads(resp["response"])
         except json.JSONDecodeError:
             value = {}
-        self.cache[key] = value
-        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
-        with self.cache_path.open("a") as fh:
-            fh.write(json.dumps({"key": key, "value": value}) + "\n")
+        with self.lock:
+            self.cache[key] = value
+            self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+            with self.cache_path.open("a") as fh:
+                fh.write(json.dumps({"key": key, "value": value}) + "\n")
         return value
 
     def message(self, body: str, direction: str) -> MessageLabel:
@@ -211,15 +217,24 @@ def run(
     notes = con.execute(
         "select visit_id, job_id, business_id, note from silver.stg_visits where coalesce(note, '') <> ''"
     ).fetchall()
-    m_rows, n_rows = [], []
-    for i, (mid, job, biz, direction, sent_at, body) in enumerate(msgs, start=1):
-        label, item, amount = extractor.message(body, direction)
-        m_rows.append((mid, job, biz, direction, sent_at, label, item, amount, extractor.name))
-        if progress and i % 250 == 0:
-            print(f"  {i}/{len(msgs)} messages", flush=True)
-    for vid, job, biz, text in notes:
-        done, item, no_charge = extractor.note(text)
-        n_rows.append((vid, job, biz, done, item, no_charge, extractor.name))
+    workers = int(getattr(extractor, "parallel", 1))
+    with ThreadPoolExecutor(max(1, workers)) as pool:
+        m_labels = []
+        for i, lab in enumerate(pool.map(lambda m: extractor.message(m[5], m[3]), msgs), start=1):
+            m_labels.append(lab)
+            if progress and i % 250 == 0:
+                print(f"  {i}/{len(msgs)} messages", flush=True)
+        n_labels = list(pool.map(lambda n: extractor.note(n[3]), notes))
+    m_rows = [
+        (mid, job, biz, direction, sent_at, label, item, amount, extractor.name)
+        for (mid, job, biz, direction, sent_at, _), (label, item, amount) in zip(
+            msgs, m_labels, strict=True
+        )
+    ]
+    n_rows = [
+        (vid, job, biz, done, item, no_charge, extractor.name)
+        for (vid, job, biz, _), (done, item, no_charge) in zip(notes, n_labels, strict=True)
+    ]
     con.execute("create schema if not exists signals")
     con.execute("""create or replace table signals.message_labels (message_id varchar, job_id varchar,
         business_id varchar, direction varchar, sent_at timestamp, label varchar, item varchar,

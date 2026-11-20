@@ -59,6 +59,7 @@ ignore = ["N818"]  # Rejected, DbtFailed and QualityFailed read better than *Err
 "src/leakcheck/messages.py" = ["E501"]
 "src/leakcheck/warehouse.py" = ["E501"]
 "poc/poc.py" = ["E501"]
+"scripts/make_figures.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"
