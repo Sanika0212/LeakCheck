@@ -1,0 +1,63 @@
+[project]
+name = "leakcheck"
+version = "0.1.0"
+description = "Finds the money small field-service contractors do the work for but never bill"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Sanika Najan", email = "sanikanajan@gmail.com" }]
+dependencies = [
+  "duckdb>=1.1",
+  "pyarrow>=17",
+  "pandas>=2.2",
+  "numpy>=1.26",
+  "pydantic>=2.7",
+  "httpx>=0.27",
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "jinja2>=3.1",
+  "python-multipart>=0.0.9",
+  "confluent-kafka>=2.5",
+  "pyiceberg[sql-sqlite,pyarrow]>=0.8",
+]
+
+[project.optional-dependencies]
+warehouse = ["dbt-duckdb>=1.8", "great-expectations>=1.2"]
+ml = ["lightgbm>=4.3", "scikit-learn>=1.5", "mlflow>=2.16", "feast>=0.40"]
+agent = ["langchain>=0.3", "langchain-ollama>=0.2", "langchain-core>=0.3", "mcp>=1.2"]
+orchestration = ["dagster>=1.8", "dagster-dbt>=0.24"]
+all = ["leakcheck[warehouse,ml,agent,orchestration]"]
+
+[project.scripts]
+leakcheck = "leakcheck.cli:main"
+
+[dependency-groups]
+dev = ["ruff>=0.6", "mypy>=1.11", "pytest>=8.3", "pytest-cov>=5.0", "pandas-stubs", "types-requests"]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/leakcheck"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N", "PT"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src/leakcheck"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "kafka: needs a Kafka broker on localhost:9092 (set LC_TEST_KAFKA=1)",
+  "ollama: needs a local Ollama with qwen2.5:7b (set LC_TEST_OLLAMA=1)",
+]

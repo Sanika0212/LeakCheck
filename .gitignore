@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+dist/
+# Rebuilt by `leakcheck generate` and the pipeline
+data/generated/
+data/lake/
+data/*.duckdb
+data/*.duckdb.wal
+data/features/
+mlruns/
+mlartifacts/
+warehouse/dbt/target/
+warehouse/dbt/logs/
+warehouse/dbt/dbt_packages/
+.dagster/
+*.log
+.env
