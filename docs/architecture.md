@@ -36,7 +36,7 @@ Everything in the local column has run and is measured in the README. The cloud 
 written (Terraform in `infra/terraform`, an Azure DevOps pipeline, Lambda and Function
 handlers that are unit tested) and validated in CI, but has not been deployed.
 
-## Three rules the design keeps
+## Four rules the design keeps
 
 1. **The model never writes an amount.** The drafting tool takes finding ids; amounts come
    from gold. The agent evaluation checks every drafted amount against the warehouse.
@@ -44,6 +44,10 @@ handlers that are unit tested) and validated in CI, but has not been deployed.
    drops duplicates by event id and keeps the latest version of each entity.
 3. **Nothing reaches the customer without the owner.** Drafts wait on the approval page;
    approving moves them to an outbox, and every tool call and decision is in the audit table.
+4. **A step that must always happen is not a tool call.** Creating a draft notifies the
+   owner in the same transaction. The agent used to be asked to call `notify_owner`
+   afterwards and, on 35 of 100 held-out jobs, passed a draft id it had invented; the tool
+   rejected it and the owner heard nothing. The README has the measurement on both designs.
 
 ## Leak detectors
 
