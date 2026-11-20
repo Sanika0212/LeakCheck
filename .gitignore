@@ -21,3 +21,6 @@ warehouse/dbt/dbt_packages/
 .dagster/
 *.log
 .env
+warehouse/dbt/.user.yml
+mlruns.db
+data/app.duckdb

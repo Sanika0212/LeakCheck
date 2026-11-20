@@ -19,7 +19,9 @@ the pipeline:
 
 The data also contain the things that make detection hard: extra work that was declined,
 or billed through a change order; price questions that are not requests; explicit
-discounts; deposits and progress invoices; invoices that simply arrive a few days late.
+discounts; deposits; invoices that simply arrive a few days late; no-charge callback visits
+(the crew fixing its own work); shop-stock purchases booked against a job; and goodwill
+credits the owner promised in a message instead of adding a discount line.
 """
 
 from __future__ import annotations
@@ -43,6 +45,7 @@ START = dt.date(2025, 4, 1)
 END = dt.date(2025, 9, 30)
 BURDEN = 1.32  # payroll taxes, insurance and benefits on top of the wage
 JOB_TYPES = ["interior", "exterior", "cabinets", "deck", "commercial"]
+NAMES = ["Lakeshore", "Elmwood", "Hertel", "Niagara", "Kenmore", "Delaware"]
 CONDITIONS = {"good": 0.9, "fair": 1.0, "poor": 1.35}
 
 
@@ -113,7 +116,7 @@ class Generator:
         bias["exterior"] -= 0.08  # owners often under-quote exterior work
         return Business(
             business_id=f"biz_{i:02d}",
-            name=f"{['Lakeshore', 'Elmwood', 'Hertel', 'Niagara', 'Kenmore', 'Delaware'][i - 1]} Painting",
+            name=f"{NAMES[i - 1]} Painting",
             split=split,
             crew_size=int(rng.integers(2, 6)),
             billing_rate=round(self.wage * BURDEN * margin, 2),
@@ -121,7 +124,7 @@ class Generator:
             tm_share=round(float(rng.uniform(0.2, 0.5)), 2),
             jobs_per_month=float(rng.uniform(22, 38)),
             estimator_bias=bias,
-            webhook_secret=f"whsec_{i:02d}_{int(rng.integers(1e9, 1e10))}",
+            webhook_secret=f"whsec_{i:02d}_{int(rng.integers(10**9, 10**10))}",
         )
 
     # -------------------------------------------------------------- job physics
@@ -194,6 +197,7 @@ class Generator:
 
     def _simulate(self, biz: Business) -> None:
         rng = self.rng
+        self.writer.style = "B" if biz.split == "test" else "A"
         day = START
         while day <= END:
             month_rate = biz.jobs_per_month * (1.2 if day.month in (5, 6, 7, 8) else 0.85)
@@ -215,7 +219,9 @@ class Generator:
         w.customers.append(customer)
         q_hours = self._quoted_hours(spec, biz)
         q_materials = self._materials(spec, start)
-        quote_total = round(q_hours * biz.billing_rate + q_materials * (1 + biz.materials_markup), 2)
+        quote_total = round(
+            q_hours * biz.billing_rate + q_materials * (1 + biz.materials_markup), 2
+        )
         quote_id, job_id = self._id("quote"), self._id("job")
         w.quotes.append(
             {
@@ -245,7 +251,9 @@ class Generator:
         if rng.random() < 0.20:
             item = str(rng.choice(list(EXTRA_ITEMS)))
             extra = {"item": item, "hours": float(rng.uniform(*EXTRA_ITEMS[item]))}
-            extra["outcome"] = str(rng.choice(["declined", "change_order", "unbilled"], p=[0.2, 0.5, 0.3]))
+            extra["outcome"] = str(
+                rng.choice(["declined", "change_order", "unbilled"], p=[0.2, 0.5, 0.3])
+            )
 
         rain_days = 0
         if job_type in ("exterior", "deck"):
@@ -254,115 +262,273 @@ class Generator:
         total_hours = hours + (extra["hours"] if extra and extra["outcome"] != "declined" else 0.0)
 
         # Visits: the crew works full days until the hours are done.
-        visits, remaining, day = [], total_hours, start
+        visits: list[dict[str, Any]] = []
+        remaining, day = total_hours, start
         while remaining > 0.05:
             crew = int(min(biz.crew_size, max(1, math.ceil(remaining / 8))))
             for _ in range(crew):
                 h = float(min(remaining, rng.uniform(6.0, 8.5)))
+                if h < 0.5 and visits:  # a few leftover minutes go on the last timesheet
+                    visits[-1]["hours"] = round(float(visits[-1]["hours"]) + h, 2)
+                    remaining -= h
+                    break
                 if h <= 0.05:
                     break
-                visits.append({"visit_id": self._id("visit"), "job_id": job_id,
-                               "business_id": biz.business_id, "date": day.isoformat(),
-                               "hours": round(h, 2), "note": ""})
+                visits.append(
+                    {
+                        "visit_id": self._id("visit"),
+                        "job_id": job_id,
+                        "business_id": biz.business_id,
+                        "date": day.isoformat(),
+                        "hours": round(h, 2),
+                        "note": "",
+                    }
+                )
                 remaining -= h
             day += dt.timedelta(days=1 + (1 if rng.random() < 0.15 else 0))
-        done = dt.date.fromisoformat(visits[-1]["date"])
+        done = dt.date.fromisoformat(str(visits[-1]["date"]))
         visits[-1]["note"] = self.writer.closing_note()
 
         # Materials bought for the job.
         expenses = []
         materials = self._materials(spec, start)
         for share in self._split(materials, int(rng.integers(1, 4))):
-            expenses.append({"expense_id": self._id("exp"), "job_id": job_id,
-                             "business_id": biz.business_id,
-                             "date": (start + dt.timedelta(days=int(rng.integers(0, 2)))).isoformat(),
-                             "vendor": str(rng.choice(["Sherwin-Williams", "Benjamin Moore", "Home Depot", "PPG"])),
-                             "amount": round(share, 2), "description": "paint and supplies"})
+            expenses.append(
+                {
+                    "expense_id": self._id("exp"),
+                    "job_id": job_id,
+                    "business_id": biz.business_id,
+                    "date": (start + dt.timedelta(days=int(rng.integers(0, 2)))).isoformat(),
+                    "vendor": str(
+                        rng.choice(["Sherwin-Williams", "Benjamin Moore", "Home Depot", "PPG"])
+                    ),
+                    "amount": round(share, 2),
+                    "description": "paint and supplies",
+                }
+            )
         extra_cost = 0.0
         if extra and extra["outcome"] != "declined":
             extra_cost = round(float(extra["hours"] * rng.uniform(8, 18)), 2)
-            expenses.append({"expense_id": self._id("exp"), "job_id": job_id,
-                             "business_id": biz.business_id, "date": done.isoformat(),
-                             "vendor": "Home Depot", "amount": extra_cost,
-                             "description": f"supplies, {extra['item']}"})
+            expenses.append(
+                {
+                    "expense_id": self._id("exp"),
+                    "job_id": job_id,
+                    "business_id": biz.business_id,
+                    "date": done.isoformat(),
+                    "vendor": "Home Depot",
+                    "amount": extra_cost,
+                    "description": f"supplies, {extra['item']}",
+                }
+            )
 
         # Messages during the job: noise, and the extra-work thread.
         mid = start + (done - start) / 2
         for _ in range(int(rng.poisson(1.2))):
-            kind = str(rng.choice(["scheduling", "question", "thanks", "price_inquiry", "cancel_extra"],
-                                  p=[0.35, 0.3, 0.15, 0.12, 0.08]))
-            w.messages.append(self._message(biz, customer, job_id, mid, self.writer.noise(kind), "inbound", kind))
+            kind = str(
+                rng.choice(
+                    ["scheduling", "question", "thanks", "price_inquiry", "cancel_extra"],
+                    p=[0.35, 0.3, 0.15, 0.12, 0.08],
+                )
+            )
+            w.messages.append(
+                self._message(biz, customer, job_id, mid, self.writer.noise(kind), "inbound", kind)
+            )
         if extra:
-            ask_day = start + dt.timedelta(days=int(rng.integers(0, max(1, (done - start).days + 1))))
-            w.messages.append(self._message(biz, customer, job_id, ask_day,
-                                            self.writer.extra_request(extra["item"]), "inbound",
-                                            "extra_request"))
+            ask_day = start + dt.timedelta(
+                days=int(rng.integers(0, max(1, (done - start).days + 1)))
+            )
+            w.messages.append(
+                self._message(
+                    biz,
+                    customer,
+                    job_id,
+                    ask_day,
+                    self.writer.extra_request(extra["item"]),
+                    "inbound",
+                    "extra_request",
+                )
+            )
             if extra["outcome"] == "declined":
-                w.messages.append(self._message(biz, customer, job_id, ask_day,
-                                                self.writer.decline(extra["item"]), "outbound", "decline"))
+                w.messages.append(
+                    self._message(
+                        biz,
+                        customer,
+                        job_id,
+                        ask_day,
+                        self.writer.decline(extra["item"]),
+                        "outbound",
+                        "decline",
+                    )
+                )
             else:
-                w.messages.append(self._message(biz, customer, job_id, ask_day,
-                                                self.writer.accept(extra["item"]), "outbound", "accept"))
+                w.messages.append(
+                    self._message(
+                        biz,
+                        customer,
+                        job_id,
+                        ask_day,
+                        self.writer.accept(extra["item"]),
+                        "outbound",
+                        "accept",
+                    )
+                )
                 if rng.random() < 0.8:  # the crew usually writes it down
                     visits[-1]["note"] = self.writer.extra_done_note(extra["item"])
+        # Confounders: work and purchases that are legitimately not billed.
+        if rng.random() < 0.08:
+            visits.append(
+                {
+                    "visit_id": self._id("visit"),
+                    "job_id": job_id,
+                    "business_id": biz.business_id,
+                    "date": (done + dt.timedelta(days=int(rng.integers(3, 12)))).isoformat(),
+                    "hours": round(float(rng.uniform(1.0, 3.0)), 2),
+                    "note": self.writer.callback_note(),
+                    "no_charge": True,
+                }
+            )
+        if rng.random() < 0.05:
+            expenses.append(
+                {
+                    "expense_id": self._id("exp"),
+                    "job_id": job_id,
+                    "business_id": biz.business_id,
+                    "date": start.isoformat(),
+                    "vendor": "Home Depot",
+                    "amount": round(float(rng.uniform(30, 120)), 2),
+                    "description": "shop stock restock (caulk, tape, rollers)",
+                    "shop_stock": True,
+                }
+            )
         w.visits.extend(visits)
         w.expenses.extend(expenses)
 
-        job = {"job_id": job_id, "business_id": biz.business_id, "customer_id": customer["customer_id"],
-               "quote_id": quote_id, "pricing": pricing, "start_date": start.isoformat(),
-               "completed_at": _ts(done, 17), "status": "completed", **spec,
-               "rain_days": rain_days, "true_hours": round(hours, 2)}
+        job = {
+            "job_id": job_id,
+            "business_id": biz.business_id,
+            "customer_id": customer["customer_id"],
+            "quote_id": quote_id,
+            "pricing": pricing,
+            "start_date": start.isoformat(),
+            "completed_at": _ts(done, 17),
+            "status": "completed",
+            **spec,
+            "rain_days": rain_days,
+            "true_hours": round(hours, 2),
+        }
         w.jobs.append(job)
 
         extra_value = 0.0
         if extra and extra["outcome"] != "declined":
-            extra_value = round(extra["hours"] * biz.billing_rate + extra_cost * (1 + biz.materials_markup), 2)
+            extra_value = round(
+                extra["hours"] * biz.billing_rate + extra_cost * (1 + biz.materials_markup), 2
+            )
             if extra["outcome"] == "change_order":
-                w.change_orders.append({"change_order_id": self._id("co"), "job_id": job_id,
-                                        "business_id": biz.business_id,
-                                        "created_at": _ts(ask_day, 18), "description": extra["item"],
-                                        "amount": extra_value, "approved": True})
+                w.change_orders.append(
+                    {
+                        "change_order_id": self._id("co"),
+                        "job_id": job_id,
+                        "business_id": biz.business_id,
+                        "created_at": _ts(ask_day, 18),
+                        "description": extra["item"],
+                        "amount": extra_value,
+                        "approved": True,
+                    }
+                )
         self._invoice(biz, job, quote_total, visits, expenses, extra, extra_value, done)
 
-    def _invoice(self, biz: Business, job: dict[str, Any], quote_total: float,
-                 visits: list[dict[str, Any]], expenses: list[dict[str, Any]],
-                 extra: dict[str, Any] | None, extra_value: float, done: dt.date) -> None:
+    def _invoice(
+        self,
+        biz: Business,
+        job: dict[str, Any],
+        quote_total: float,
+        visits: list[dict[str, Any]],
+        expenses: list[dict[str, Any]],
+        extra: dict[str, Any] | None,
+        extra_value: float,
+        done: dt.date,
+    ) -> None:
         rng, w = self.rng, self.world
         job_id = job["job_id"]
         rate, mk = biz.billing_rate, biz.materials_markup
         leaks: list[dict[str, Any]] = []
         lines: list[dict[str, Any]] = []
         if job["pricing"] == "fixed":
-            lines.append({"kind": "fixed_price", "description": "Painting as quoted", "amount": quote_total})
+            lines.append(
+                {"kind": "fixed_price", "description": "Painting as quoted", "amount": quote_total}
+            )
             if extra and extra["outcome"] == "change_order":
-                lines.append({"kind": "change_order", "description": extra["item"], "amount": extra_value})
+                lines.append(
+                    {"kind": "change_order", "description": extra["item"], "amount": extra_value}
+                )
             elif extra and extra["outcome"] == "unbilled":
                 leaks.append({"leak_type": "unbilled_extra_work", "amount": extra_value})
             if rng.random() < 0.05:
                 disc = round(quote_total * float(rng.uniform(0.03, 0.1)), 2)
-                lines.append({"kind": "discount", "description": "Repeat-customer discount", "amount": -disc})
+                lines.append(
+                    {"kind": "discount", "description": "Repeat-customer discount", "amount": -disc}
+                )
             elif rng.random() < 0.045:
                 cut = round(quote_total * float(rng.uniform(0.05, 0.15)), 2)
                 lines[0]["amount"] = round(quote_total - cut, 2)
                 leaks.append({"leak_type": "unapproved_discount", "amount": cut})
+            elif rng.random() < 0.04:
+                # A credit promised in a message: approved, just not written as a line.
+                credit = float(
+                    max(50, round(quote_total * float(rng.uniform(0.03, 0.08)) / 25) * 25)
+                )
+                lines[0]["amount"] = round(quote_total - credit, 2)
+                customer = {"customer_id": job["customer_id"]}
+                w.messages.append(
+                    self._message(
+                        biz,
+                        customer,
+                        job_id,
+                        done,
+                        self.writer.concession(credit),
+                        "outbound",
+                        "concession",
+                    )
+                )
         else:
-            billed_visits = list(visits)
-            if len(visits) > 2 and rng.random() < 0.10:
-                dropped = [v for v in visits if rng.random() < 0.25] or [visits[-2]]
-                billed_visits = [v for v in visits if v not in dropped]
-                leaks.append({"leak_type": "unbilled_hours",
-                              "amount": round(sum(v["hours"] for v in dropped) * rate, 2)})
-            billed_exp = list(expenses)
-            if len(expenses) > 1 and rng.random() < 0.10:
-                dropped_e = expenses[int(rng.integers(0, len(expenses)))]
-                billed_exp = [e for e in expenses if e is not dropped_e]
-                leaks.append({"leak_type": "unbilled_materials",
-                              "amount": round(dropped_e["amount"] * (1 + mk), 2)})
+            billable = [v for v in visits if not v.get("no_charge")]
+            billed_visits = list(billable)
+            if len(billable) > 2 and rng.random() < 0.10:
+                dropped = [v for v in billable if rng.random() < 0.25] or [billable[-2]]
+                billed_visits = [v for v in billable if v not in dropped]
+                leaks.append(
+                    {
+                        "leak_type": "unbilled_hours",
+                        "amount": round(sum(v["hours"] for v in dropped) * rate, 2),
+                    }
+                )
+            job_exp = [e for e in expenses if not e.get("shop_stock")]
+            billed_exp = list(job_exp)
+            if len(job_exp) > 1 and rng.random() < 0.10:
+                dropped_e = job_exp[int(rng.integers(0, len(job_exp)))]
+                billed_exp = [e for e in job_exp if e is not dropped_e]
+                leaks.append(
+                    {
+                        "leak_type": "unbilled_materials",
+                        "amount": round(dropped_e["amount"] * (1 + mk), 2),
+                    }
+                )
             hours = sum(v["hours"] for v in billed_visits)
-            lines.append({"kind": "labor", "description": f"{hours:.1f} h at ${rate}", "hours": round(hours, 2),
-                          "amount": round(hours * rate, 2)})
-            lines.append({"kind": "materials", "description": "Materials at cost plus markup",
-                          "amount": round(sum(e["amount"] for e in billed_exp) * (1 + mk), 2)})
+            lines.append(
+                {
+                    "kind": "labor",
+                    "description": f"{hours:.1f} h at ${rate}",
+                    "hours": round(hours, 2),
+                    "amount": round(hours * rate, 2),
+                }
+            )
+            lines.append(
+                {
+                    "kind": "materials",
+                    "description": "Materials at cost plus markup",
+                    "amount": round(sum(e["amount"] for e in billed_exp) * (1 + mk), 2),
+                }
+            )
             if extra and extra["outcome"] == "unbilled":
                 # On a time-and-materials job the hours are billed anyway; only a missed
                 # change order on fixed-price work is extra-work leakage.
@@ -373,36 +539,84 @@ class Generator:
         if never:
             leaks = [{"leak_type": "uninvoiced_job", "amount": total}]
         for leak in leaks:
-            w.truth.append({"job_id": job_id, "business_id": biz.business_id, **leak,
-                            "completed_at": job["completed_at"]})
+            w.truth.append(
+                {
+                    "job_id": job_id,
+                    "business_id": biz.business_id,
+                    **leak,
+                    "completed_at": job["completed_at"],
+                }
+            )
         if never:
             return
-        invoice_day = done + dt.timedelta(days=int(rng.choice([0, 1, 2, 3, 5, 8, 12], p=[.25, .25, .15, .12, .1, .08, .05])))
+        invoice_day = done + dt.timedelta(
+            days=int(
+                rng.choice([0, 1, 2, 3, 5, 8, 12], p=[0.25, 0.25, 0.15, 0.12, 0.1, 0.08, 0.05])
+            )
+        )
         deposit = 0.0
         if total > 3000 and rng.random() < 0.6:
             deposit = round(total * 0.3, 2)
-            w.invoices.append({"invoice_id": self._id("inv"), "job_id": job_id, "business_id": biz.business_id,
-                               "kind": "deposit", "created_at": _ts(dt.date.fromisoformat(job["start_date"]) - dt.timedelta(days=2), 9),
-                               "lines": [{"kind": "deposit", "description": "30% deposit", "amount": deposit}],
-                               "total": deposit})
+            w.invoices.append(
+                {
+                    "invoice_id": self._id("inv"),
+                    "job_id": job_id,
+                    "business_id": biz.business_id,
+                    "kind": "deposit",
+                    "created_at": _ts(
+                        dt.date.fromisoformat(job["start_date"]) - dt.timedelta(days=2), 9
+                    ),
+                    "lines": [{"kind": "deposit", "description": "30% deposit", "amount": deposit}],
+                    "total": deposit,
+                }
+            )
         final_lines = [*lines]
         if deposit:
-            final_lines.append({"kind": "deposit_credit", "description": "Less deposit", "amount": -deposit})
-        w.invoices.append({"invoice_id": self._id("inv"), "job_id": job_id, "business_id": biz.business_id,
-                           "kind": "final", "created_at": _ts(invoice_day, 11), "lines": final_lines,
-                           "total": round(total - deposit, 2)})
+            final_lines.append(
+                {"kind": "deposit_credit", "description": "Less deposit", "amount": -deposit}
+            )
+        w.invoices.append(
+            {
+                "invoice_id": self._id("inv"),
+                "job_id": job_id,
+                "business_id": biz.business_id,
+                "kind": "final",
+                "created_at": _ts(invoice_day, 11),
+                "lines": final_lines,
+                "total": round(total - deposit, 2),
+            }
+        )
 
     def _split(self, amount: float, n: int) -> list[float]:
         weights = self.rng.dirichlet(np.ones(n))
         return [float(amount * x) for x in weights]
 
-    def _message(self, biz: Business, customer: dict[str, Any], job_id: str, day: dt.date,
-                 body: str, direction: str, kind: str) -> dict[str, Any]:
-        msg = {"message_id": self._id("msg"), "business_id": biz.business_id, "job_id": job_id,
-               "customer_id": customer["customer_id"], "sent_at": _ts(day, float(self.rng.uniform(8, 20))),
-               "direction": direction, "body": body}
-        self.world.message_truth.append({"message_id": msg["message_id"], "kind": kind,
-                                         "is_extra_request": kind == "extra_request"})
+    def _message(
+        self,
+        biz: Business,
+        customer: dict[str, Any],
+        job_id: str,
+        day: dt.date,
+        body: str,
+        direction: str,
+        kind: str,
+    ) -> dict[str, Any]:
+        msg = {
+            "message_id": self._id("msg"),
+            "business_id": biz.business_id,
+            "job_id": job_id,
+            "customer_id": customer["customer_id"],
+            "sent_at": _ts(day, float(self.rng.uniform(8, 20))),
+            "direction": direction,
+            "body": body,
+        }
+        self.world.message_truth.append(
+            {
+                "message_id": msg["message_id"],
+                "kind": kind,
+                "is_extra_request": kind == "extra_request",
+            }
+        )
         return msg
 
 
@@ -412,10 +626,16 @@ def generate(out: Path = Path("data/generated"), seed: int = 7) -> World:
     out.mkdir(parents=True, exist_ok=True)
     tables: dict[str, list[dict[str, Any]]] = {
         "businesses": [asdict(b) for b in world.businesses],
-        "customers": world.customers, "quotes": world.quotes, "jobs": world.jobs,
-        "visits": world.visits, "expenses": world.expenses, "messages": world.messages,
-        "change_orders": world.change_orders, "invoices": world.invoices,
-        "truth": world.truth, "message_truth": world.message_truth,
+        "customers": world.customers,
+        "quotes": world.quotes,
+        "jobs": world.jobs,
+        "visits": world.visits,
+        "expenses": world.expenses,
+        "messages": world.messages,
+        "change_orders": world.change_orders,
+        "invoices": world.invoices,
+        "truth": world.truth,
+        "message_truth": world.message_truth,
     }
     for name, rows in tables.items():
         with (out / f"{name}.jsonl").open("w") as fh:

@@ -48,6 +48,15 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N", "PT"]
+ignore = ["N818"]  # Rejected, DbtFailed and QualityFailed read better than *Error
+
+[tool.ruff.lint.per-file-ignores]
+# SQL, prompts, HTML and message templates are clearer unwrapped.
+"src/leakcheck/agent/*" = ["E501"]
+"src/leakcheck/extract.py" = ["E501"]
+"src/leakcheck/messages.py" = ["E501"]
+"src/leakcheck/warehouse.py" = ["E501"]
+"poc/poc.py" = ["E501"]
 
 [tool.mypy]
 python_version = "3.12"

@@ -1,0 +1,10 @@
+version: 2
+sources:
+  - name: signals
+    description: What the extraction step read in customer messages and crew notes.
+    schema: signals
+    tables:
+      - name: message_labels
+        description: One label per message (extra_request, cancel_extra, price_question, accept, decline, other) and the item it names.
+      - name: note_labels
+        description: Whether a crew note says extra work was done, and which item.

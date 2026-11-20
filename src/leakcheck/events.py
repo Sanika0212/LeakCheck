@@ -13,7 +13,7 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-HIDDEN = {"true_hours", "rain_days"}
+HIDDEN = {"true_hours", "rain_days", "no_charge", "shop_stock"}
 
 # topic -> (entity table, timestamp field, timestamp suffix for date-only fields)
 TOPICS: list[tuple[str, str, str]] = [
@@ -68,11 +68,19 @@ def events(root: Path = Path("data/generated")) -> list[dict[str, Any]]:
     return out
 
 
-def _event(topic: str, entity: str, entity_id: str, account: str, occurred: str,
-           data: dict[str, Any]) -> dict[str, Any]:
+def _event(
+    topic: str, entity: str, entity_id: str, account: str, occurred: str, data: dict[str, Any]
+) -> dict[str, Any]:
     event_id = hashlib.sha1(f"{topic}:{entity_id}:{occurred}".encode()).hexdigest()[:16]
-    return {"event_id": event_id, "topic": topic, "entity": entity, "entity_id": entity_id,
-            "account_id": account, "occurred_at": occurred, "data": data}
+    return {
+        "event_id": event_id,
+        "topic": topic,
+        "entity": entity,
+        "entity_id": entity_id,
+        "account_id": account,
+        "occurred_at": occurred,
+        "data": data,
+    }
 
 
 def iter_bodies(evts: list[dict[str, Any]]) -> Iterator[tuple[str, bytes]]:

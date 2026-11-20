@@ -23,15 +23,30 @@ import os
 from collections import defaultdict
 from typing import Any, Protocol
 
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+
 TOPIC_ENTITY = {
-    "QUOTE_CREATE": "quote", "QUOTE_APPROVED": "quote", "JOB_COMPLETE": "job",
-    "VISIT_COMPLETE": "visit", "EXPENSE_CREATE": "expense", "MESSAGE_CREATE": "message",
-    "CHANGE_ORDER_CREATE": "change_order", "INVOICE_CREATE": "invoice",
+    "QUOTE_CREATE": "quote",
+    "QUOTE_APPROVED": "quote",
+    "JOB_COMPLETE": "job",
+    "VISIT_COMPLETE": "visit",
+    "EXPENSE_CREATE": "expense",
+    "MESSAGE_CREATE": "message",
+    "CHANGE_ORDER_CREATE": "change_order",
+    "INVOICE_CREATE": "invoice",
     "CLIENT_CREATE": "customer",
 }
-ID_FIELD = {"quote": "quote_id", "job": "job_id", "visit": "visit_id", "expense": "expense_id",
-            "message": "message_id", "change_order": "change_order_id",
-            "invoice": "invoice_id", "customer": "customer_id"}
+ID_FIELD = {
+    "quote": "quote_id",
+    "job": "job_id",
+    "visit": "visit_id",
+    "expense": "expense_id",
+    "message": "message_id",
+    "change_order": "change_order_id",
+    "invoice": "invoice_id",
+    "customer": "customer_id",
+}
 SIGNATURE_HEADER = "x-leakcheck-signature"
 
 
@@ -62,8 +77,14 @@ class KafkaSink:
     def __init__(self, bootstrap: str = "localhost:9092") -> None:
         from confluent_kafka import Producer
 
-        self.producer = Producer({"bootstrap.servers": bootstrap, "enable.idempotence": True,
-                                  "linger.ms": 20, "compression.type": "zstd"})
+        self.producer = Producer(
+            {
+                "bootstrap.servers": bootstrap,
+                "enable.idempotence": True,
+                "linger.ms": 20,
+                "compression.type": "zstd",
+            }
+        )
 
     def send(self, topic: str, key: str, value: bytes) -> None:
         self.producer.produce(topic, key=key.encode(), value=value)
@@ -77,8 +98,9 @@ def sign(secret: str, body: bytes) -> str:
     return base64.b64encode(hmac.new(secret.encode(), body, hashlib.sha256).digest()).decode()
 
 
-def receive(account: str, body: bytes, headers: dict[str, str], secrets: dict[str, str],
-            sink: Sink) -> dict[str, Any]:
+def receive(
+    account: str, body: bytes, headers: dict[str, str], secrets: dict[str, str], sink: Sink
+) -> dict[str, Any]:
     lowered = {k.lower(): v for k, v in headers.items()}
     secret = secrets.get(account)
     signature = lowered.get(SIGNATURE_HEADER, "")
@@ -120,10 +142,7 @@ def load_secrets(path: str | None = None) -> dict[str, str]:
     return out
 
 
-def create_app(secrets: dict[str, str] | None = None, sink: Sink | None = None) -> Any:
-    from fastapi import FastAPI, Request
-    from fastapi.responses import JSONResponse
-
+def create_app(secrets: dict[str, str] | None = None, sink: Sink | None = None) -> FastAPI:
     app = FastAPI(title="LeakCheck webhooks")
     state: dict[str, Any] = {"secrets": secrets, "sink": sink}
 
@@ -162,8 +181,13 @@ def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     raw = base64.b64decode(body) if event.get("isBase64Encoded") else body.encode()
     account = (event.get("pathParameters") or {}).get("account", "")
     try:
-        result = receive(account, raw, event.get("headers") or {}, _LAMBDA_STATE["secrets"],
-                         _LAMBDA_STATE["sink"])
+        result = receive(
+            account,
+            raw,
+            event.get("headers") or {},
+            _LAMBDA_STATE["secrets"],
+            _LAMBDA_STATE["sink"],
+        )
         _LAMBDA_STATE["sink"].flush()
         return {"statusCode": 200, "body": json.dumps(result)}
     except Rejected as exc:

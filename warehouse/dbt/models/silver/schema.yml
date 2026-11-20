@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: stg_jobs
+    columns:
+      - name: job_id
+        tests: [unique, not_null]
+      - name: pricing
+        tests:
+          - accepted_values: {values: [fixed, time_materials]}
+  - name: stg_quotes
+    columns:
+      - name: quote_id
+        tests: [unique, not_null]
+  - name: stg_visits
+    columns:
+      - name: visit_id
+        tests: [unique, not_null]
+      - name: job_id
+        tests:
+          - relationships: {to: ref('stg_jobs'), field: job_id}
+  - name: stg_invoices
+    columns:
+      - name: invoice_id
+        tests: [unique, not_null]
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]

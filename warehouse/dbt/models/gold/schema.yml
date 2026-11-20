@@ -1,0 +1,16 @@
+version: 2
+models:
+  - name: findings
+    columns:
+      - name: finding_id
+        tests: [unique, not_null]
+      - name: finding_type
+        tests:
+          - accepted_values:
+              values: [uninvoiced_job, unbilled_hours, unbilled_materials, unbilled_extra_work, unapproved_discount]
+      - name: amount
+        tests: [not_null]
+  - name: job_financials
+    columns:
+      - name: job_id
+        tests: [unique, not_null]

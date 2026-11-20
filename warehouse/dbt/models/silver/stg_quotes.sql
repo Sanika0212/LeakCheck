@@ -1,0 +1,20 @@
+select
+  entity_id as quote_id,
+  business_id,
+  payload->>'customer_id' as customer_id,
+  payload->>'job_id' as job_id,
+  (payload->>'created_at')::timestamp as created_at,
+  (payload->>'approved_at')::timestamp as approved_at,
+  payload->>'pricing' as pricing,
+  (payload->>'est_hours')::double as est_hours,
+  (payload->>'rate')::double as rate,
+  (payload->>'est_materials')::double as est_materials,
+  (payload->>'markup')::double as markup,
+  (payload->>'total')::double as total,
+  payload->>'job_type' as job_type,
+  payload->>'condition' as condition,
+  (payload->>'stories')::int as stories,
+  (payload->>'rooms')::int as rooms,
+  (payload->>'doors')::int as doors,
+  (payload->>'area_sqft')::double as area_sqft
+from {{ bronze_entity('quote') }}

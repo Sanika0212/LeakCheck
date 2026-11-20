@@ -1,0 +1,24 @@
+name: leakcheck
+version: "0.1.0"
+config-version: 2
+profile: leakcheck
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+target-path: target
+clean-targets: [target, dbt_packages]
+
+vars:
+  bronze_metadata: ""        # set by `leakcheck warehouse` from the Iceberg catalog
+  as_of: "2025-10-31"        # findings are computed as of this date
+  invoice_grace_days: 14     # a completed job may go this long without an invoice
+  pii_salt: "local-dev-salt" # in Snowflake this is a masking policy instead
+
+models:
+  leakcheck:
+    silver:
+      +schema: silver
+      +materialized: table
+    gold:
+      +schema: gold
+      +materialized: table

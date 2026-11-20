@@ -1,0 +1,8 @@
+leakcheck:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('LC_WAREHOUSE', '../../data/warehouse.duckdb') }}"
+      extensions: [iceberg, json]
+      threads: 4
