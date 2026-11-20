@@ -74,17 +74,25 @@ class MemorySink:
 
 
 class KafkaSink:
-    def __init__(self, bootstrap: str = "localhost:9092") -> None:
+    def __init__(
+        self, bootstrap: str = "localhost:9092", sasl: dict[str, str] | None = None
+    ) -> None:
         from confluent_kafka import Producer
 
-        self.producer = Producer(
-            {
-                "bootstrap.servers": bootstrap,
-                "enable.idempotence": True,
-                "linger.ms": 20,
-                "compression.type": "zstd",
+        config: dict[str, Any] = {
+            "bootstrap.servers": bootstrap,
+            "enable.idempotence": True,
+            "linger.ms": 20,
+            "compression.type": "zstd",
+        }
+        if sasl:  # Confluent Cloud: API key and secret over SASL_SSL
+            config |= {
+                "security.protocol": "SASL_SSL",
+                "sasl.mechanisms": "PLAIN",
+                "sasl.username": sasl["username"],
+                "sasl.password": sasl["password"],
             }
-        )
+        self.producer = Producer(config)
 
     def send(self, topic: str, key: str, value: bytes) -> None:
         self.producer.produce(topic, key=key.encode(), value=value)
@@ -172,11 +180,25 @@ def create_app(secrets: dict[str, str] | None = None, sink: Sink | None = None) 
 _LAMBDA_STATE: dict[str, Any] = {}
 
 
+def _secret(arn: str) -> Any:
+    import boto3
+
+    return json.loads(boto3.client("secretsmanager").get_secret_value(SecretId=arn)["SecretString"])
+
+
 def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """API Gateway (REST, proxy integration) entry point; same checks as the local app."""
+    """API Gateway (HTTP API, payload 1.0) entry point; same checks as the local app.
+
+    Webhook secrets and Kafka credentials come from Secrets Manager (ARNs in the
+    environment); ``LC_WEBHOOK_SECRETS`` as plain JSON is accepted for local runs.
+    """
     if "sink" not in _LAMBDA_STATE:
-        _LAMBDA_STATE["secrets"] = json.loads(os.environ["LC_WEBHOOK_SECRETS"])
-        _LAMBDA_STATE["sink"] = KafkaSink(os.environ["LC_KAFKA"])
+        if arn := os.environ.get("LC_WEBHOOK_SECRETS_ARN"):
+            _LAMBDA_STATE["secrets"] = _secret(arn)
+        else:
+            _LAMBDA_STATE["secrets"] = json.loads(os.environ["LC_WEBHOOK_SECRETS"])
+        creds = os.environ.get("LC_KAFKA_CREDENTIALS_ARN")
+        _LAMBDA_STATE["sink"] = KafkaSink(os.environ["LC_KAFKA"], _secret(creds) if creds else None)
     body = event.get("body") or ""
     raw = base64.b64decode(body) if event.get("isBase64Encoded") else body.encode()
     account = (event.get("pathParameters") or {}).get("account", "")

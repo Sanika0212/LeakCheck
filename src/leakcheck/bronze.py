@@ -12,12 +12,16 @@ Two ways in:
    event id).
 2. :func:`load_direct` normalizes generated events with the same code as the webhook and
    appends them straight away, for CI and quick local runs without a broker.
+3. :func:`lambda_handler` is the same append for AWS Lambda with a Kafka event source; there
+   the table lives on S3 and is registered in the Glue database named by ``LC_GLUE_DB``.
 """
 
 from __future__ import annotations
 
+import base64
 import datetime as dt
 import json
+import os
 import time
 from collections.abc import Iterable
 from pathlib import Path
@@ -26,7 +30,6 @@ from typing import Any
 import pyarrow as pa
 
 LAKE = Path("data/lake")
-TABLE = "bronze.events"
 FIELDS = [
     ("event_id", pa.string()),
     ("topic", pa.string()),
@@ -41,7 +44,15 @@ FIELDS = [
 ARROW_SCHEMA = pa.schema([pa.field(n, t, nullable=(n == "payload")) for n, t in FIELDS])
 
 
+def _namespace() -> str:
+    return os.environ.get("LC_GLUE_DB", "bronze")
+
+
 def catalog(root: Path = LAKE) -> Any:
+    if os.environ.get("LC_GLUE_DB"):  # AWS: Glue catalog, data files on S3
+        from pyiceberg.catalog.glue import GlueCatalog
+
+        return GlueCatalog("leakcheck", warehouse=f"s3://{os.environ['LC_LAKE_BUCKET']}/bronze/")
     from pyiceberg.catalog.sql import SqlCatalog
 
     root.mkdir(parents=True, exist_ok=True)
@@ -56,14 +67,16 @@ def table(root: Path = LAKE) -> Any:
     from pyiceberg.transforms import IdentityTransform
 
     cat = catalog(root)
-    if not cat.namespace_exists("bronze"):
-        cat.create_namespace("bronze")
-    if cat.table_exists(TABLE):
-        return cat.load_table(TABLE)
-    tbl = cat.create_table(TABLE, schema=ARROW_SCHEMA)
+    ns = _namespace()
+    name = f"{ns}.events"
+    if not cat.namespace_exists(ns):
+        cat.create_namespace(ns)
+    if cat.table_exists(name):
+        return cat.load_table(name)
+    tbl = cat.create_table(name, schema=ARROW_SCHEMA)
     with tbl.update_spec() as spec:
         spec.add_field("entity", IdentityTransform(), "entity")
-    return cat.load_table(TABLE)
+    return cat.load_table(name)
 
 
 def metadata_location(root: Path = LAKE) -> str:
@@ -126,7 +139,7 @@ def consume(
     consumer = Consumer(
         {
             "bootstrap.servers": bootstrap,
-            "group.id": "leakcheck-bronze",
+            "group.id": os.environ.get("LC_BRONZE_GROUP", "leakcheck-bronze"),
             "enable.auto.commit": False,
             "auto.offset.reset": "earliest",
         }
@@ -153,3 +166,13 @@ def consume(
             total += append(pending, root)
             consumer.commit(asynchronous=False)
         consumer.close()
+
+
+def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, int]:
+    """Kafka event source batch (records base64-encoded per topic-partition) into Iceberg."""
+    records = [
+        json.loads(base64.b64decode(r["value"]))
+        for batch in event.get("records", {}).values()
+        for r in batch
+    ]
+    return {"appended": append(records)}

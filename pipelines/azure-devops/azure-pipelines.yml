@@ -1,0 +1,50 @@
+# Azure DevOps pipeline for the agent's Function App: test, package, deploy.
+# Needs a service connection named "leakcheck-azure" and the app name from Terraform.
+trigger:
+  branches: { include: [main] }
+  paths: { include: [src/leakcheck/agent/*, function_app/*] }
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  pythonVersion: "3.12"
+  functionAppName: $(LEAKCHECK_FUNCTION_APP)
+
+stages:
+  - stage: Test
+    jobs:
+      - job: unit
+        steps:
+          - task: UsePythonVersion@0
+            inputs: { versionSpec: $(pythonVersion) }
+          - script: |
+              pip install uv
+              uv sync --extra all --python $(pythonVersion)
+              uv run pytest -q tests/test_agent.py tests/test_ingest.py
+            displayName: Agent and intake tests
+
+  - stage: Deploy
+    dependsOn: Test
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: package
+        steps:
+          - task: UsePythonVersion@0
+            inputs: { versionSpec: $(pythonVersion) }
+          - script: |
+              cd function_app
+              pip install --target=".python_packages/lib/site-packages" ..[agent,azure]
+            displayName: Install the package into the app
+          - task: ArchiveFiles@2
+            inputs:
+              rootFolderOrFile: function_app
+              includeRootFolder: false
+              archiveFile: $(Build.ArtifactStagingDirectory)/agent.zip
+          - task: AzureFunctionApp@2
+            inputs:
+              azureSubscription: leakcheck-azure
+              appType: functionAppLinux
+              appName: $(functionAppName)
+              package: $(Build.ArtifactStagingDirectory)/agent.zip
+              runtimeStack: PYTHON|3.12

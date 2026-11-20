@@ -27,7 +27,9 @@ warehouse = ["dbt-duckdb>=1.8", "great-expectations>=1.2"]
 ml = ["lightgbm>=4.3", "scikit-learn>=1.5", "mlflow>=2.16", "feast>=0.40"]
 agent = ["langchain>=0.3", "langchain-ollama>=0.2", "langchain-core>=0.3", "mcp>=1.2"]
 orchestration = ["dagster>=1.8", "dagster-dbt>=0.24"]
-all = ["leakcheck[warehouse,ml,agent,orchestration]"]
+aws = ["boto3>=1.35"]
+azure = ["azure-functions>=1.21", "azure-identity>=1.19", "langchain-openai>=0.3"]
+all = ["leakcheck[warehouse,ml,agent,orchestration,aws,azure]"]
 
 [project.scripts]
 leakcheck = "leakcheck.cli:main"

@@ -41,6 +41,28 @@ def ollama_model(model: str = "qwen2.5:7b") -> BaseChatModel:
     return ChatOllama(model=model, temperature=0, num_predict=400)
 
 
+def chat_model() -> BaseChatModel:
+    """Local Ollama by default; Azure OpenAI when ``LC_LLM_PROVIDER=azure-openai`` (the
+    Function App), authenticated with the app's managed identity rather than a key."""
+    import os
+
+    if os.environ.get("LC_LLM_PROVIDER") == "azure-openai":
+        from azure.identity import DefaultAzureCredential, get_bearer_token_provider
+        from langchain_openai import AzureChatOpenAI
+
+        token = get_bearer_token_provider(
+            DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default"
+        )
+        return AzureChatOpenAI(
+            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+            azure_deployment=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+            api_version="2024-10-21",
+            azure_ad_token_provider=token,
+            temperature=0,
+        )
+    return ollama_model(os.environ.get("LC_OLLAMA_MODEL", "qwen2.5:7b"))
+
+
 def run_job(
     job_id: str, tools: Tools, model: BaseChatModel, recursion_limit: int = 12
 ) -> dict[str, Any]:

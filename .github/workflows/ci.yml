@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: lint, types, tests, proof of concept
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Install
+        run: uv sync --python 3.12 --all-extras
+      - name: Lint
+        run: uv run ruff check src tests eval poc && uv run ruff format --check src tests eval poc
+      - name: Types
+        run: uv run mypy
+      - name: Tests (dbt, Great Expectations, Feast, MLflow, MCP, agent with a scripted model)
+        run: uv run pytest -q --cov=leakcheck --cov-report=term --cov-fail-under=80
+      - name: Proof of concept from scratch
+        run: uv run leakcheck generate && uv run python poc/poc.py
+
+  kafka:
+    name: webhook to Kafka to Iceberg
+    runs-on: ubuntu-latest
+    services:
+      kafka:
+        image: apache/kafka:4.1.0
+        ports: ["9092:9092"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --python 3.12 --all-extras
+      - name: Integration test
+        env: { LC_TEST_KAFKA: "1" }
+        run: uv run pytest -q tests/test_kafka.py
+
+  terraform:
+    name: terraform (aws, azure, snowflake, confluent)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        stack: [aws, azure, snowflake, confluent]
+    defaults:
+      run:
+        working-directory: infra/terraform/${{ matrix.stack }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false
+      - run: terraform validate
+      - uses: terraform-linters/setup-tflint@v4
+      - run: tflint --init && tflint
+      - name: checkov
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: infra/terraform/${{ matrix.stack }}
+          framework: terraform
+          soft_fail: true
+          quiet: true

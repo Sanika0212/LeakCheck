@@ -90,3 +90,30 @@ def test_http_app_and_lambda_share_the_checks(
     event = {"body": body.decode(), "headers": headers, "pathParameters": {"account": account}}
     assert lambda_handler(event, None)["statusCode"] == 200
     assert lambda_handler({**event, "headers": {}}, None)["statusCode"] == 401
+
+
+def test_bronze_lambda_appends_a_kafka_event_batch(
+    world: dict[str, Any], tmp_path: Any, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import base64
+
+    from leakcheck import bronze
+
+    account, body = _body(world)
+    sink = MemorySink()
+    receive(
+        account,
+        body,
+        {"X-LeakCheck-Signature": sign(world["secrets"][account], body)},
+        world["secrets"],
+        sink,
+    )
+    ((topic, msgs),) = sink.topics.items()
+    event = {
+        "eventSource": "SelfManagedKafka",
+        "records": {f"{topic}-0": [{"value": base64.b64encode(v).decode()} for _, v in msgs]},
+    }
+    monkeypatch.setattr(bronze, "LAKE", tmp_path / "lake")
+    monkeypatch.setattr(bronze.append, "__defaults__", (tmp_path / "lake",))
+    assert bronze.lambda_handler(event, None) == {"appended": 1}
+    assert bronze.table(tmp_path / "lake").scan().to_arrow().num_rows == 1
