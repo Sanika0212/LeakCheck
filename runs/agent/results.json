@@ -5,15 +5,15 @@
   "clean_jobs": 20,
   "summary": {
     "evidence_first": 1.0,
-    "right_draft": 0.98,
-    "notified": 0.65,
+    "right_draft": 0.99,
+    "notified": 0.99,
     "amounts_from_tools": 1.0,
-    "no_edits": 0.63
+    "no_edits": 0.99
   },
-  "no_edits_with_findings": 0.537,
+  "no_edits_with_findings": 0.988,
   "no_draft_on_clean_jobs": 1.0,
-  "median_seconds": 21.4,
-  "drafted_lines": 80,
+  "median_seconds": 15.9,
+  "drafted_lines": 79,
   "drafted_amounts_not_from_warehouse": 0,
   "cases_detail": [
     {
@@ -21,14 +21,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 76.1,
+      "no_edits": true,
+      "seconds": 15.1,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -39,12 +38,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 29.3,
+      "seconds": 155.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -55,12 +52,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 38.7,
+      "seconds": 26.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -68,14 +63,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 21.4,
+      "no_edits": true,
+      "seconds": 13.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -86,12 +80,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 21.1,
+      "seconds": 14.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -99,14 +91,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 20.4,
+      "no_edits": true,
+      "seconds": 10.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -114,14 +105,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 22.9,
+      "no_edits": true,
+      "seconds": 11.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -129,14 +119,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 22.7,
+      "no_edits": true,
+      "seconds": 12.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -147,12 +136,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 28.9,
+      "seconds": 12.9,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -163,12 +150,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 29.7,
+      "seconds": 13.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -179,12 +164,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 28.0,
+      "seconds": 12.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -192,14 +175,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 17.1,
+      "no_edits": true,
+      "seconds": 15.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -210,12 +192,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 32.8,
+      "seconds": 14.6,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -223,14 +203,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 23.5,
+      "no_edits": true,
+      "seconds": 15.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -238,14 +217,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 32.5,
+      "no_edits": true,
+      "seconds": 14.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -256,12 +234,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 36.8,
+      "seconds": 12.8,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -269,14 +245,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 24.4,
+      "no_edits": true,
+      "seconds": 13.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -287,12 +262,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 20.5,
+      "seconds": 12.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -300,14 +273,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 22.0,
+      "no_edits": true,
+      "seconds": 17.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -318,12 +290,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 32.5,
+      "seconds": 20.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -334,12 +304,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 26.4,
+      "seconds": 18.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -347,14 +315,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 23.6,
+      "no_edits": true,
+      "seconds": 19.1,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -362,14 +329,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 19.7,
+      "no_edits": true,
+      "seconds": 18.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -380,12 +346,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 35.7,
+      "seconds": 19.6,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -393,14 +357,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 21.5,
+      "no_edits": true,
+      "seconds": 20.8,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -408,14 +371,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 29.3,
+      "no_edits": true,
+      "seconds": 18.9,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -423,14 +385,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 21.8,
+      "no_edits": true,
+      "seconds": 20.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -441,12 +402,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 27.7,
+      "seconds": 15.1,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -457,12 +416,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 28.3,
+      "seconds": 11.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -470,14 +427,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 23.8,
+      "no_edits": true,
+      "seconds": 18.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -488,13 +444,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 34.4,
+      "seconds": 22.6,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -502,14 +455,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 26.0,
+      "no_edits": true,
+      "seconds": 18.6,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -520,12 +472,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 34.3,
+      "seconds": 20.8,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -533,14 +483,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 378.8,
+      "no_edits": true,
+      "seconds": 19.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -551,12 +500,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 715.0,
+      "seconds": 19.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -567,12 +514,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 1467.3,
+      "seconds": 18.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -583,12 +528,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 19.2,
+      "seconds": 21.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -599,13 +542,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 22.2,
+      "seconds": 19.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -613,14 +553,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 15.8,
+      "no_edits": true,
+      "seconds": 18.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -628,14 +567,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 13.8,
+      "no_edits": true,
+      "seconds": 21.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -643,14 +581,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 14.8,
+      "no_edits": true,
+      "seconds": 21.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -661,12 +598,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 22.5,
+      "seconds": 20.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -677,12 +612,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 17.0,
+      "seconds": 21.8,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -693,12 +626,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 16.3,
+      "seconds": 18.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -709,30 +640,24 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 16.6,
+      "seconds": 20.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
       "job_id": "job_000721",
       "findings": 1,
       "evidence_first": true,
-      "right_draft": false,
+      "right_draft": true,
       "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 24.8,
+      "no_edits": true,
+      "seconds": 20.8,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -743,12 +668,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 20.8,
+      "seconds": 18.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -756,14 +679,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 17.7,
+      "no_edits": true,
+      "seconds": 17.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -774,12 +696,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 23.0,
+      "seconds": 19.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -790,12 +710,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 28.3,
+      "seconds": 20.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -803,14 +721,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 25.4,
+      "no_edits": true,
+      "seconds": 19.2,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -818,14 +735,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 23.7,
+      "no_edits": true,
+      "seconds": 17.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -836,12 +752,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 22.5,
+      "seconds": 12.9,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -849,14 +763,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 20.7,
+      "no_edits": true,
+      "seconds": 12.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -864,14 +777,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 16.1,
+      "no_edits": true,
+      "seconds": 13.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -882,12 +794,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 19.3,
+      "seconds": 16.6,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -895,14 +805,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 25.5,
+      "no_edits": true,
+      "seconds": 16.1,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -913,12 +822,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 30.7,
+      "seconds": 15.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -926,14 +833,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 18.1,
+      "no_edits": true,
+      "seconds": 16.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -941,14 +847,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 19.0,
+      "no_edits": true,
+      "seconds": 15.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -959,12 +864,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 25.8,
+      "seconds": 13.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -972,14 +875,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 19.5,
+      "no_edits": true,
+      "seconds": 13.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -990,12 +892,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 26.5,
+      "seconds": 14.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1006,12 +906,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 23.6,
+      "seconds": 14.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1022,12 +920,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 28.1,
+      "seconds": 18.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1035,18 +931,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": false,
-      "notified": true,
+      "notified": false,
       "amounts_from_tools": true,
       "no_edits": false,
-      "seconds": 633.9,
+      "seconds": 13.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "draft_invoice",
-        "notify_owner",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1057,12 +948,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 898.7,
+      "seconds": 16.0,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1073,12 +962,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 21.4,
+      "seconds": 15.1,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1086,14 +973,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 16.1,
+      "no_edits": true,
+      "seconds": 13.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1101,14 +987,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 14.3,
+      "no_edits": true,
+      "seconds": 19.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1119,12 +1004,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 20.2,
+      "seconds": 18.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1135,12 +1018,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 18.4,
+      "seconds": 17.9,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1151,12 +1032,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 20.0,
+      "seconds": 15.9,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1164,14 +1043,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 16.5,
+      "no_edits": true,
+      "seconds": 17.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1179,14 +1057,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 18.2,
+      "no_edits": true,
+      "seconds": 24.4,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1197,12 +1074,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 16.4,
+      "seconds": 21.1,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1210,14 +1085,13 @@
       "findings": 1,
       "evidence_first": true,
       "right_draft": true,
-      "notified": false,
+      "notified": true,
       "amounts_from_tools": true,
-      "no_edits": false,
-      "seconds": 17.0,
+      "no_edits": true,
+      "seconds": 19.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1228,12 +1102,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 17.8,
+      "seconds": 18.5,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1244,12 +1116,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 20.1,
+      "seconds": 15.3,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1260,12 +1130,10 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 21.7,
+      "seconds": 24.7,
       "tool_calls": [
         "get_job_evidence",
-        "draft_invoice",
-        "notify_owner",
-        "notify_owner"
+        "draft_invoice"
       ]
     },
     {
@@ -1276,10 +1144,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 11.5,
+      "seconds": 10.8,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1290,7 +1157,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 7.3,
+      "seconds": 12.8,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1303,10 +1170,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 11.8,
+      "seconds": 12.1,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1317,7 +1183,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 8.1,
+      "seconds": 13.0,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1330,10 +1196,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 9.3,
+      "seconds": 14.1,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1344,7 +1209,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 7.7,
+      "seconds": 11.7,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1357,10 +1222,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 7.3,
+      "seconds": 13.3,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1371,10 +1235,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 9.3,
+      "seconds": 12.9,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1385,10 +1248,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 9.7,
+      "seconds": 10.9,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1399,7 +1261,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 6.8,
+      "seconds": 11.6,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1412,7 +1274,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 6.9,
+      "seconds": 11.0,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1425,7 +1287,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 5.9,
+      "seconds": 13.1,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1438,7 +1300,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 7.0,
+      "seconds": 13.8,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1451,7 +1313,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 6.7,
+      "seconds": 14.8,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1464,7 +1326,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 6.5,
+      "seconds": 17.3,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1477,12 +1339,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 24.2,
+      "seconds": 13.2,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner",
-        "list_open_findings",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1493,7 +1352,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 7.3,
+      "seconds": 14.8,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1506,10 +1365,9 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 7.8,
+      "seconds": 13.6,
       "tool_calls": [
-        "get_job_evidence",
-        "notify_owner"
+        "get_job_evidence"
       ]
     },
     {
@@ -1520,7 +1378,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 6.7,
+      "seconds": 14.2,
       "tool_calls": [
         "get_job_evidence"
       ]
@@ -1533,7 +1391,7 @@
       "notified": true,
       "amounts_from_tools": true,
       "no_edits": true,
-      "seconds": 6.2,
+      "seconds": 14.5,
       "tool_calls": [
         "get_job_evidence"
       ]

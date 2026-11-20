@@ -1,14 +1,25 @@
 {
+  "topics": [
+    "lc.change_order",
+    "lc.customer",
+    "lc.expense",
+    "lc.invoice",
+    "lc.job",
+    "lc.message",
+    "lc.quote",
+    "lc.visit"
+  ],
   "events_sent": 3000,
   "rate_per_second": 100.0,
-  "events_in_bronze": 847,
+  "events_in_bronze": 3000,
   "send_seconds": 30.0,
   "webhook_to_iceberg_seconds": {
-    "p50": 8.98,
-    "p95": 18.58,
-    "p99": 19.53,
-    "max": 20.12
+    "p50": 0.59,
+    "p95": 2.71,
+    "p99": 3.92,
+    "max": 4.2
   },
   "micro_batch_seconds": 1.0,
-  "bronze_to_gold_build_seconds": 12.7
+  "events_in_full_build": 18450,
+  "bronze_to_gold_build_seconds": 6.4
 }

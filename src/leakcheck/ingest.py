@@ -93,13 +93,20 @@ class KafkaSink:
                 "sasl.password": sasl["password"],
             }
         self.producer = Producer(config)
+        self.failed = 0
+
+    def _delivered(self, err: Any, _msg: Any) -> None:
+        # Producing is asynchronous, so a failure would otherwise be lost silently.
+        if err is not None:
+            self.failed += 1
 
     def send(self, topic: str, key: str, value: bytes) -> None:
-        self.producer.produce(topic, key=key.encode(), value=value)
+        self.producer.produce(topic, key=key.encode(), value=value, on_delivery=self._delivered)
         self.producer.poll(0)
 
-    def flush(self) -> None:
-        self.producer.flush(30)
+    def flush(self) -> int:
+        """Block until every queued message is delivered; returns what is still unsent."""
+        return int(self.producer.flush(30))
 
 
 def sign(secret: str, body: bytes) -> str:

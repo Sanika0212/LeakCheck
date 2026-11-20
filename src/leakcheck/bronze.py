@@ -142,6 +142,9 @@ def consume(
             "group.id": os.environ.get("LC_BRONZE_GROUP", "leakcheck-bronze"),
             "enable.auto.commit": False,
             "auto.offset.reset": "earliest",
+            # A regex subscription only picks up a topic at a metadata refresh, and the
+            # default interval is five minutes.
+            "topic.metadata.refresh.interval.ms": 5000,
         }
     )
     consumer.subscribe(["^lc\\..*"])

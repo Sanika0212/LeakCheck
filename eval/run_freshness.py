@@ -6,8 +6,10 @@ Starts a single-node Kafka broker (KRaft mode, its own data directory), the webh
 producing to it, and the bronze consumer appending to a separate Iceberg table every
 second. Replays signed events over HTTP at a fixed rate, then reads the table back:
 for every event, ``ingested_at - received_at`` is the time from the webhook accepting it to
-the batch that holds it being committed in Iceberg. Then times one bronze-to-gold build
-(dbt silver, quality checks, rule extraction, dbt gold) on that table.
+the batch that holds it being committed in Iceberg. Then loads the whole 18 months into the
+same table and times one bronze-to-gold build (dbt silver, quality checks, rule extraction,
+dbt gold): a build on the replayed slice alone would be a build on a fragment of the
+stream, where a visit can arrive before its job.
 """
 
 from __future__ import annotations
@@ -71,6 +73,25 @@ def start_kafka(tmp: Path) -> subprocess.Popen[bytes]:
     raise RuntimeError("Kafka did not start")
 
 
+def create_topics(bootstrap: str = "localhost:9092") -> list[str]:
+    """Provision one topic per entity, the way the Confluent stack does."""
+    from confluent_kafka.admin import AdminClient, NewTopic
+
+    from leakcheck.events import ENTITY
+
+    names = sorted(f"lc.{entity}" for entity, _ in ENTITY.values())
+    admin = AdminClient({"bootstrap.servers": bootstrap})
+    for name, future in admin.create_topics(
+        [NewTopic(n, num_partitions=1, replication_factor=1) for n in names]
+    ).items():
+        try:
+            future.result()
+        except Exception as exc:  # already there is fine
+            if "TOPIC_ALREADY_EXISTS" not in str(exc):
+                raise RuntimeError(f"could not create {name}: {exc}") from exc
+    return names
+
+
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--events", type=int, default=3000)
@@ -85,8 +106,10 @@ def main() -> None:
     kafka = start_kafka(tmp)
     lake = tmp / "lake"
     try:
+        topics = create_topics()
         secrets = ingest.load_secrets()
-        app = ingest.create_app(secrets, ingest.KafkaSink("localhost:9092"))
+        sink = ingest.KafkaSink("localhost:9092")
+        app = ingest.create_app(secrets, sink)
         server = uvicorn.Server(
             uvicorn.Config(app, host="127.0.0.1", port=8061, log_level="warning")
         )
@@ -99,7 +122,8 @@ def main() -> None:
             daemon=True,
         )
         time.sleep(2)
-        bodies = list(events.iter_bodies(events.events()))[: args.events]
+        all_events = events.events()
+        bodies = list(events.iter_bodies(all_events))[: args.events]
         started = time.time()
         with httpx.Client(base_url="http://127.0.0.1:8061", timeout=10) as client:
             for i, (account, body) in enumerate(bodies):
@@ -114,6 +138,9 @@ def main() -> None:
                 if delay > 0:
                     time.sleep(delay)
         send_seconds = time.time() - started
+        unsent = sink.flush()  # a 200 on the webhook is not delivery; wait for the broker
+        if unsent or sink.failed:
+            raise RuntimeError(f"{unsent} events unsent and {sink.failed} failed to deliver")
         consumer.join(timeout=300)
         table = bronze.table(lake).scan().to_arrow()
         if table.num_rows != len(bodies):
@@ -128,6 +155,9 @@ def main() -> None:
         ).astype(float) / 1e6
         server.should_exit = True
 
+        # The replayed slice is the latency measurement. Timing a build on it would time a
+        # fragment of the stream, so the build is timed on the whole 18 months instead.
+        bronze.load_direct(all_events, secrets, root=lake)
         db = tmp / "warehouse.duckdb"
         os.environ["LC_WAREHOUSE"] = str(db)
         os.environ["LC_DBT_TARGET"] = str(tmp / "dbt-target")
@@ -136,6 +166,7 @@ def main() -> None:
         warehouse.build("rules", lake=lake)
         gold_seconds = time.time() - t0
         result = {
+            "topics": topics,
             "events_sent": len(bodies),
             "rate_per_second": args.rate,
             "events_in_bronze": table.num_rows,
@@ -147,6 +178,7 @@ def main() -> None:
                 "max": round(float(lat.max()), 2),
             },
             "micro_batch_seconds": 1.0,
+            "events_in_full_build": len(all_events),
             "bronze_to_gold_build_seconds": round(gold_seconds, 1),
         }
         print(result)

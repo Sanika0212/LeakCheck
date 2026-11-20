@@ -476,25 +476,52 @@ def plot_quote(res: dict[str, Any], mode: str) -> None:
     save(fig, "quote", mode)
 
 
-def plot_agent(res: dict[str, Any], mode: str) -> None:
+def plot_agent(res: dict[str, Any], mode: str, before: dict[str, Any] | None = None) -> None:
     t = use_theme(mode)
-    fig, ax = plt.subplots(figsize=(6.4, 2.9))
+    fig, ax = plt.subplots(figsize=(7.4, 3.2))
     s = res["summary"]
-    rows = [
-        ("read the evidence first", s["evidence_first"]),
-        ("drafted exactly the findings", s["right_draft"]),
-        ("notified the owner", s["notified"]),
-        ("no amount it did not get from a tool", s["amounts_from_tools"]),
-        ("needed no edits", s["no_edits"]),
+    labels = [
+        ("read the evidence first", "evidence_first"),
+        ("drafted exactly the findings", "right_draft"),
+        ("owner told about the draft", "notified"),
+        ("no amount it did not get from a tool", "amounts_from_tools"),
+        ("needed no edits", "no_edits"),
     ]
-    for y, (name, v) in enumerate(rows[::-1]):
-        ax.barh(y, v, color=t.series[2] if name != "needed no edits" else t.series[0], height=0.6)
-        ax.text(v + 0.01, y, f"{v:.0%}", va="center", fontsize=9, color=t.ink2)
-    ax.set_yticks(range(len(rows)), [r[0] for r in rows[::-1]])
+    height = 0.34 if before else 0.6
+    for y, (_name, key) in enumerate(labels[::-1]):
+        offset = height / 2 if before else 0.0
+        if before:
+            ax.barh(
+                y - offset,
+                before["summary"][key],
+                color=t.muted,
+                height=height * 0.92,
+                label="notifying was a tool call" if y == 0 else None,
+            )
+            ax.text(
+                before["summary"][key] + 0.01,
+                y - offset,
+                f"{before['summary'][key]:.0%}",
+                va="center",
+                fontsize=8,
+                color=t.ink2,
+            )
+        color = t.series[0] if key == "no_edits" else t.series[2]
+        ax.barh(
+            y + offset,
+            s[key],
+            color=color,
+            height=height * 0.92,
+            label="drafting notifies the owner" if (before and y == 0) else None,
+        )
+        ax.text(s[key] + 0.01, y + offset, f"{s[key]:.0%}", va="center", fontsize=8.5, color=t.ink2)
+    ax.set_yticks(range(len(labels)), [r[0] for r in labels[::-1]])
     ax.tick_params(axis="y", length=0)
     ax.set_xlim(0, 1.12)
     ax.grid(axis="x")
-    fig.subplots_adjust(left=0.38, right=0.96, top=0.74, bottom=0.08)
+    if before:
+        ax.legend(loc="lower right", bbox_to_anchor=(1.0, 1.0), fontsize=8, ncol=2)
+    fig.subplots_adjust(left=0.33, right=0.97, top=0.70, bottom=0.08)
     title(
         fig,
         "The invoicing agent on 100 held-out jobs",
@@ -524,7 +551,7 @@ def main() -> None:
         if (q := load("quote")) is not None:
             plot_quote(q, mode)
         if (a := load("agent")) is not None:
-            plot_agent(a, mode)
+            plot_agent(a, mode, load("agent-tool-call"))
 
 
 if __name__ == "__main__":
